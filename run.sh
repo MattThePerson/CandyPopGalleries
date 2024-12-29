@@ -5,7 +5,7 @@ HTTP_SERVER_PORT=8002
 FLASK_API_PORT=5000
 
 # Navigate to project directory
-PROJECT_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
+PROJECT_DIR="$(dirname "$(readlink -f "$0")")"
 cd "$PROJECT_DIR"
 
 

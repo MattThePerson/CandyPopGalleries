@@ -96,3 +96,20 @@ Site: #Twitter #Reddit
   - favourite
   - CUSTOM
 
+
+
+### sort / filter / view
+
+SORT:
+- date added
+- date uploaded
+- likes
+
+FILTER:
+- media
+- favourites
+- 
+
+VIEW:
+- list
+- grid
