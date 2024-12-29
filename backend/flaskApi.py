@@ -3,13 +3,20 @@ from flask_cors import CORS
 import argparse
 
 
+app = Flask(__name__)
+CORS(app)
 
 
-
+@app.route("/")
+def home():
+    print("Blank request recieved")
+    return jsonify({'message': 'Hello, CORS enabled!'}), 200
 
 
 def main(args):
     print('In CandyPopMedia flasApi.py main() ...')
+
+    app.run(port=args.port, debug=False, use_reloader=False)
 
 
 if __name__ == '__main__':

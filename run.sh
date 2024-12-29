@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # server ports
-HTTP_SERVER_PORT=8002
+HTTP_SERVER_PORT=-1
+#8002
 FLASK_API_PORT=5000
 
 # Navigate to project directory
@@ -9,25 +10,35 @@ PROJECT_DIR="$(dirname "$(readlink -f "$0")")"
 cd "$PROJECT_DIR"
 
 
+#### FUNCTIONS ####
+
 # Function to start the servers
 start_servers() {
-
-    # Start HTTP server for frontend
-    cd frontend
-    echo
-    echo "[HTTP Server] Starting HTTP server for frontend on port $HTTP_SERVER_PORT ..."
-    python3 -m http.server $HTTP_SERVER_PORT &
-    HTTP_SERVER_PID=$!
-    cd ..
-
-    # Add a small delay to prevent printout mixing
-    sleep 0.5
 
     # Start Flask API
     echo
     echo "[Flask API] Starting Flask API on port $FLASK_API_PORT..."
     python3 backend/flaskApi.py --port $FLASK_API_PORT "$@" &
     FLASK_API_PID=$!
+
+    # Add a small delay to prevent printout mixing
+    sleep 0.75
+
+    # Start HTTP server for frontend
+    cd frontend
+    echo
+    # UNUSED! echo "[HTTP Server] Starting HTTP server for frontend on port $HTTP_SERVER_PORT ..."
+    # UNUSED! python3 -m http.server $HTTP_SERVER_PORT &
+    
+    # echo "[NODE] Building frontend ..."
+    # npm run build
+    # echo "[NODE] Starting frontend server ..."
+    # npm run preview &
+    
+    echo "[NODE] Starting frontend dev server ..."
+    npm run dev &
+    HTTP_SERVER_PID=$!
+    cd ..
 }
 
 # Function to restart the servers
@@ -44,18 +55,17 @@ restart_servers() {
     start_servers
 }
 
-# Function to stop the servers
-stop_servers() {
-    echo "Shutting down servers..."
-    kill $HTTP_SERVER_PID $FLASK_API_PID
-}
-
 # Function to handle cleanup on exit (e.g., Ctrl+C)
 cleanup() {
-  echo "Cleanup: Shutting down servers..."
+  echo "[CLEANUP] Shutting down servers (HTTP_SERVER=$HTTP_SERVER_PID FLASK_API=$FLASK_API_PID) ..."
   kill $HTTP_SERVER_PID $FLASK_API_PID
+  echo "Exiting..."
+  echo
   exit 0
 }
+
+
+#### MAIN ####
 
 # Trap SIGINT (Ctrl+C) and cleanup
 trap cleanup SIGINT
@@ -71,6 +81,7 @@ source backend/.venv/bin/activate
 
 # Start the servers initially
 start_servers
+sleep 0.75
 
 # Interactive command loop
 while true; do
@@ -83,9 +94,7 @@ while true; do
             restart_servers
             ;;
         exit)
-            stop_servers
-            echo "Exiting..."
-            exit 0
+            cleanup
             ;;
         *)
             echo "Unknown command: $user_command"

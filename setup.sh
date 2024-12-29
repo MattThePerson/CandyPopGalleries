@@ -2,21 +2,27 @@
 
 UTILITY_NAME=cpop-gall
 
-
-
 # Navigate to project directory
 PROJECT_DIR="$(dirname "$(readlink -f "$0")")"
 cd "$PROJECT_DIR"
 
-# Create and activate virtual environment (if not already done)
+# [NODE] Install dependnedies
+cd frontend
+echo "[NODE] Installing deps ..."
+npm install
+cd ..
+
+# [FlaskAPI] Create and activate python virtual environment (if not already done)
 if [ ! -d "backend/.venv" ]; then
     echo
     echo "[VENV] Creating virtual environment..."
     python3 -m venv backend/.venv
 fi
-source backend/.venv/bin/activate
+cd backend
+source .venv/bin/activate
 pip install -r requirements.txt
 deactivate
+cd ..
 
 chmod +x run.sh
 echo
