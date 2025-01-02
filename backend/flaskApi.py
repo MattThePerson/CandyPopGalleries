@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import argparse
 
+
 creators = [
     { "name": "PixelCrafter", "amount": 85 },
     { "name": "CodeExplorer", "amount": 67 },
@@ -99,6 +100,65 @@ creators = [
     { "name": "ArtisticSoul", "amount": 75 },
 ]
 
+""" TEMP """
+def get_posts():
+    import json
+    with open('posts.json', 'r') as f:
+        return json.load(f)
+
+def add_to_dict(dct, item, key):
+    items = dct.get(key, [])
+    items.append(item)
+    dct[key] = items
+    return dct
+
+def get_tag_post_map(posts):
+    mp = {}
+    for post in posts:
+        id_, src, cre, tags = post['id'], post['source'], post['creator'], post['tags']
+        mp = add_to_dict(mp, id_, 'source--' + src)
+        mp = add_to_dict(mp, id_, 'creator--' + cre)
+        for tag in tags:
+            mp = add_to_dict(mp, id_, tag)
+    return mp
+
+def get_general_tags(mp):
+    tags = []
+    for tag, lst in mp.items():
+        if '--' not in tag:
+            item = {
+                'name': tag,
+                'amount': int(len(lst))
+            }
+            tags.append(item)
+    return tags
+
+def get_source_tags(mp):
+    tags = []
+    for tag, lst in mp.items():
+        if tag.startswith('source--'):
+            item = {
+                'name': tag.replace('source--', ''),
+                'amount': int(len(lst))
+            }
+            tags.append(item)
+    return tags
+
+def get_creator_tags(mp):
+    tags = []
+    for tag, lst in mp.items():
+        if tag.startswith('creator--'):
+            item = {
+                'name': tag.replace('creator--', ''),
+                'amount': int(len(lst))
+            }
+            tags.append(item)
+    return tags
+
+
+posts = get_posts()
+tag_post_map = get_tag_post_map(posts)
+
 app = Flask(__name__)
 CORS(app)
 
@@ -116,9 +176,20 @@ def home():
     return jsonify({'message': 'Hello, CORS enabled!'}), 200
 
 
+@app.route("/get-sources")
+def get_sources():
+    source_tags = get_source_tags(tag_post_map)
+    return generateReponse(source_tags), 200
+
 @app.route("/get-creators")
 def get_creators():
-    return generateReponse(creators), 200
+    creator_tags = get_creator_tags(tag_post_map)
+    return generateReponse(creator_tags), 200
+
+@app.route("/get-tags")
+def get_tags():
+    tags = get_general_tags(tag_post_map)
+    return generateReponse(tags), 200
 
 
 # MAIN

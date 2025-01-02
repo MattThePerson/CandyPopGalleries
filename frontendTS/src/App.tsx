@@ -15,16 +15,25 @@ import Post from './components/Post'
 
 function App() {
 
+    const [sources, setSources] = useState(null);
     const [creators, setCreators] = useState(null);
+    const [tags, setTags] = useState(null);
 
     console.log("made App()");
     // console.log(creators);
     
     useEffect(() => {
+        makeApiRequestGET('get-sources', [], (res: any) => {
+            console.log("GET: response recieved!");
+            setSources(res);
+        });
         makeApiRequestGET('get-creators', [], (res: any) => {
             console.log("GET: response recieved!");
-            // console.log(res);
             setCreators(res);
+        });
+        makeApiRequestGET('get-tags', [], (res: any) => {
+            console.log("GET: response recieved!");
+            setTags(res);
         });
     }, []);
     
@@ -34,9 +43,9 @@ function App() {
         <div className="app">
             <section id='side-bar-section'>
                 <h2>CandyPop Gallery</h2>
-                <DropdownInput name="source" options={creators} />
+                <DropdownInput name="source" options={sources} />
                 <DropdownInput name="creator" options={creators} />
-                <DropdownInput name="tags" options={creators} />
+                <DropdownInput name="tags" options={tags} />
             </section>
 
             <section id='main-section'>
