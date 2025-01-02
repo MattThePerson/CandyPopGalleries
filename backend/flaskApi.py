@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import argparse
 
-
 app = Flask(__name__)
 CORS(app)
 
@@ -11,6 +10,8 @@ CORS(app)
 def home():
     print("Blank request recieved")
     return jsonify({'message': 'Hello, CORS enabled!'}), 200
+
+
 
 
 def main(args):

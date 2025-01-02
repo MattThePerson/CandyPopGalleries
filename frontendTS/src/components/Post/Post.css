@@ -1,0 +1,24 @@
+
+
+.Post {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    background: #0004;
+    border-radius: 10px;
+    border: 1px solid #0005;
+
+
+    .tag-bar {
+        display: flex;
+        gap: 0.3rem;
+        margin: 0.2rem;
+    }
+    
+    .tag {
+        background: green;
+        padding: .1rem .5rem;
+        border-radius: 5px;
+        border: 1px solid #0005;
+    }
+}
