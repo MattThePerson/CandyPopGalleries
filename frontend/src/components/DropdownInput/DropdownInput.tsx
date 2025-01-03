@@ -77,12 +77,7 @@ function DropdownInput({ name, options }: DropdownInputProps) {
         const input_el = component_el.querySelector('input');
         const dropdown_list_el = component_el.querySelector('.dropdown-list');
 
-        input_el?.addEventListener('focus', () =>   {
-            
-            dropdown_list_el?.classList.add('show');
-            console.log(dropdown_list_el);
-            
-        } );
+        input_el?.addEventListener('focus', () =>   dropdown_list_el?.classList.add('show') );
         input_el?.addEventListener('blur', () =>    dropdown_list_el?.classList.remove('show') );
     }, []);
     

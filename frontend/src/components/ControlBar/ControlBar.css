@@ -35,6 +35,7 @@
         border-radius: 10px;
         border: 1.5px solid #0005;
         overflow: hidden;
+        user-select: none;
     }
 
     .button div {
@@ -47,7 +48,7 @@
     .button > div:last-child { padding-right: 0.7rem; }
 
     .button.selected {
-        background: rgb(41, 41, 41);
+        background: rgb(116, 116, 116);
     }
 
     .button:hover {

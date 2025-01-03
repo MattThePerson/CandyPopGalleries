@@ -8,7 +8,7 @@ function ControlBar() {
         <div className="ControlBar">
             <div className="container">
                 <div>sort by</div>
-                <div className="button selected">
+                <div className="button selected" onClick={() => console.log("date added")}>
                     <div>date added</div>
                     <div className="order-button"><img src={down_arrow} alt="Order image" /></div>
                 </div>
