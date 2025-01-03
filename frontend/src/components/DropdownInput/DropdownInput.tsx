@@ -39,7 +39,7 @@ function DropdownInput({ name, options }: DropdownInputProps) {
     }
 
     // handle clicking an option in the dropdown list
-    function handleDropdownClick(obj: {name: string, amount: number}) {
+    function handleSelect(obj: {name: string, amount: number}) {
         const component_el = document.getElementById(component_id)!;
         const selected_el = component_el.querySelector('.selected-tags');
         const dropdown_list_el = component_el.querySelector('ul');
@@ -54,7 +54,7 @@ function DropdownInput({ name, options }: DropdownInputProps) {
         }
         
         return filteredOptions?.map((opt) => 
-            <li key={opt.name+opt.amount} onMouseDown={() => handleDropdownClick(opt)}>
+            <li key={opt.name+opt.amount} onMouseDown={() => handleSelect(opt)}> {/* Could be optimized */}
             <div>{opt.name}</div><div>{opt.amount}</div>
         </li>
         )
@@ -81,7 +81,7 @@ function DropdownInput({ name, options }: DropdownInputProps) {
         input_el?.addEventListener('blur', () =>    dropdown_list_el?.classList.remove('show') );
     }, []);
     
-    // update filtered options on first re-load
+    // update filtered options on when options change
     useEffect(() => {
         filterOptions('');
     }, [options]);
@@ -91,7 +91,7 @@ function DropdownInput({ name, options }: DropdownInputProps) {
     return (
         <div className="DropdownInput" id={component_id}>
             <div className="name">{name}</div>
-            <div className="selected-tags"></div>
+            <ul className="selected-tags"></ul>
             <input id={name + "_input"} type="search" autoComplete="off" onChange={e => filterOptions(e.target.value)} />
             <ul className="dropdown-list">
                 {getDropdownList()}
