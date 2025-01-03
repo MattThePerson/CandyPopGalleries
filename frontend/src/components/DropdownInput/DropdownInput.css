@@ -48,8 +48,10 @@
 
     /* selected tags */
     .selected-tags {
+        margin: 0.3rem;
         display: flex;
         flex-direction: column;
+        height: fit-content;
     }
     
     .selected-tags li {

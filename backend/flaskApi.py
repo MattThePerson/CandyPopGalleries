@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import argparse
+import os
 
 
 creators = [
@@ -103,7 +104,9 @@ creators = [
 """ TEMP """
 def get_posts():
     import json
-    with open('posts.json', 'r') as f:
+    
+    posts_file = os.path.join( os.path.dirname(__file__), 'posts.json' )
+    with open(posts_file, 'r') as f:
         return json.load(f)
 
 def add_to_dict(dct, item, key):

@@ -10,6 +10,7 @@ import './App.css'
 
 import DropdownInput from './components/DropdownInput'
 import Post from './components/Post'
+import ControlBar from './components/ControlBar'
 
 
 
@@ -41,24 +42,25 @@ function App() {
     /* RETURN */
     return (
         <div className="app">
-            <section id='side-bar-section'>
+            <section id="side-bar-section">
                 <h2>CandyPop Gallery</h2>
                 <DropdownInput name="source" options={sources} />
                 <DropdownInput name="creator" options={creators} />
                 <DropdownInput name="tags" options={tags} />
             </section>
 
-            <section id='main-section'>
-                <div id='control-bar'></div>
-                <div id='content-container'>
+            <section id="main-section">
+                <div id="control-bar">
+                    <ControlBar />
+                </div>
+                <div id="content-container">
                     <div id="feed-container">
                         <div className="feed">
                             <Post image={example_image} />
                         </div>
                     </div>
-                    <div id="feed-date-nav"></div>
+                    <div id="feed-date-nav">2024</div>
                 </div>
-
             </section>
         </div>
     )

@@ -19,7 +19,7 @@ else
 # CSS File
     cat <<EOF > $1.css
 
-.#$1 {
+.$1 {
     display: inline;
 }
 EOF
