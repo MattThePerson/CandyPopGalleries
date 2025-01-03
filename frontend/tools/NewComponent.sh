@@ -5,7 +5,7 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-cd src/components
+cd ../src/components
 
 if [ -d $1 ]; then
     echo "Component '$1' exists"
